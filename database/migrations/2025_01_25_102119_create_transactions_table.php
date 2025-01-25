@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('listing_id')->constrained();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->integer('price_per_day')->unsigned()->nullable()->default(0);
+            $table->integer('total_days')->unsigned()->nullable()->default(0);
+            $table->decimal('fee', 5, 1)->unsigned()->nullable()->default(0);
+            $table->decimal('total_price', 5, 1)->unsigned()->nullable()->default(0);
+            $table->enum('status', ['waiting', 'approved', 'canceled'])->default('waiting');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
